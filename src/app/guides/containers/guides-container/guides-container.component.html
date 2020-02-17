@@ -1,0 +1,141 @@
+<pip-menu-layout [ngClass]="{'pip-single-content': isSingle$ | async}">
+
+    <div class="pip-menu"  fxLayout="column">  
+        <div class="scroll-container" fxLayout="column">
+            <pip-guidance-list *ngIf="(updateState$ | async) != 'empty' && (updateState$ | async) != 'progress' || media.isMainActive('gt-sm')" 
+                [selectId]="selectId$ | async" 
+                [guidances]="guidances$ | async" 
+                [loading]="loading$ | async" 
+                [state]="updateState$ | async"
+                (selectChange)="select($event)" 
+                (add)="initAdd()" 
+                [progressText]="'GUIDANCE.LOADING' | translate" 
+                [emptyText]="'GUIDANCE.EMPTY.TEXT' | translate"
+                [emptySubText]="'GUIDANCE.EMPTY.SUBTEXT' | translate"
+                [newGuidanceText]="'GUIDANCE.CREATE.NEW.TITLE' | translate"
+                [newGuidanceSubText]="'GUIDANCE.CREATE.NEW.SUBTITLE' | translate"
+                [emptyStateActions]="emptyStateActions">
+            </pip-guidance-list>
+
+            <pip-empty-state *ngIf="(updateState$ | async) == 'progress' && !media.isMainActive('gt-sm')">
+                <pip-empty-state-title [text]="'GUIDANCE.LOADING' | translate" imageUrl="./assets/progress.svg"></pip-empty-state-title>
+                <div class="pip-progress">
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+            </pip-empty-state>
+
+            <pip-empty-state *ngIf="(updateState$ | async) == 'empty' && !media.isMainActive('gt-sm')">
+                <pip-empty-state-title [text]="'GUIDANCE.EMPTY.TEXT' | translate" [subText]="'GUIDANCE.EMPTY.SUBTEXT' | translate" imageUrl="./assets/empty.svg"></pip-empty-state-title>
+                <pip-empty-state-actions [actions]="emptyStateActions"></pip-empty-state-actions>
+            </pip-empty-state>   
+        </div>
+        <button mat-fab color="primary" class="pip-fab" (click)="initAdd()" 
+            *ngIf="(updateState$ | async) == 'view' || (updateState$ | async) == 'edit' || (updateState$ | async) == 'create'"
+            [disabled]="(loading$ | async) || (updateState$ | async) == 'edit' || (updateState$ | async) == 'create'">
+            <mat-icon aria-label="create">add</mat-icon>
+        </button> 
+    </div>
+
+    <div class="pip-menu-container" [ngSwitch]="updateState$ | async">
+
+        <pip-document-layout *ngSwitchCase="'progress'">
+            <pip-document-content>
+                <pip-empty-state>
+                    <pip-empty-state-title [text]="'GUIDANCE.LOADING' | translate" imageUrl="./assets/progress.svg"></pip-empty-state-title>
+                    <div class="pip-progress">
+                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                    </div>
+                </pip-empty-state>
+            </pip-document-content>
+        </pip-document-layout>
+        <pip-document-layout *ngSwitchCase="'empty'">
+            <pip-document-content>
+                <pip-empty-state >
+                    <pip-empty-state-title [text]="'GUIDANCE.EMPTY.TEXT' | translate" [subText]="'GUIDANCE.EMPTY.SUBTEXT' | translate" imageUrl="./assets/empty.svg"></pip-empty-state-title>
+                    <pip-empty-state-actions [actions]="emptyStateActions"></pip-empty-state-actions>
+                </pip-empty-state>
+            </pip-document-content>
+        </pip-document-layout>
+
+        <pip-guidance-update *ngSwitchDefault 
+            [ln]="ln" 
+            [languages]="languages" 
+            [guidance]="selectGuidance$ | async" 
+            [loading]="loading$ | async"
+            [error]="error$ | async" 
+            [applications]="applications$ | async" 
+            [url]="url"
+
+            [addPageText]="'GUIDANCE.VIEW.BUTTON.ADD-PAGE' | translate" 
+            [reviewText]="'GUIDANCE.VIEW.BUTTON.REVIEW' | translate" 
+            [saveText]="'GUIDANCE.EDIT.BUTTON.SAVE' | translate" 
+            [cancelText]="'GUIDANCE.EDIT.BUTTON.CANCEL' | translate" 
+            [deleteText]="'GUIDANCE.VIEW.BUTTON.DELETE' | translate" 
+
+            [deletePageTooltip]="'GUIDANCE.VIEW.TOOLTIP.DELETE-PAGE' | translate" 
+            [upPageTooltip]="'GUIDANCE.VIEW.TOOLTIP.UP-PAGE' | translate" 
+            [downPageTooltip]="'GUIDANCE.VIEW.TOOLTIP.DOWN-PAGE' | translate" 
+            [copyPageTooltip]="'GUIDANCE.VIEW.TOOLTIP.COPY-PAGE' | translate" 
+
+            [guideErrorNameRequired]="'GUIDANCE.EDIT.ERROR.NAME.REQUIRED' | translate"
+            [guideErrorApplicationRequired]="'GUIDANCE.EDIT.ERROR.APP.REQUIRED' | translate"
+
+            [nameText]="'GUIDANCE.VIEW.NAME.LABEL' | translate"
+            [appText]="'GUIDANCE.VIEW.APP.LABEL' | translate" 
+            [versionMinText]="'GUIDANCE.VERSION-MIN.LABEL' | translate"
+            [versionMaxText]="'GUIDANCE.VERSION-MAX.LABEL' | translate"
+            [tagText]="'GUIDANCE.VIEW.TAG.LABEL' | translate" 
+            [statusText]="'GUIDANCE.VIEW.STATUS.LABEL' | translate" 
+            [pageText]="'GUIDANCE.VIEW.PAGE.LABEL' | translate" 
+            [titleText]="'GUIDANCE.VIEW.PAGE.TITLE.LABEL' | translate" 
+            [textText]="'GUIDANCE.VIEW.PAGE.TEXT.LABEL' | translate"
+
+            (cancel)="cancel()" 
+            (update)="update($event)"
+            (delete)="openDeleteConfirmationDialog($event)"
+            (change)="change()" 
+            (review)="openReview($event)" 
+            (changeLang)="changeLn($event)">
+        </pip-guidance-update>
+
+        <pip-guidance-update *ngSwitchCase="'create'" 
+            [ln]="ln" 
+            [languages]="languages" 
+            [guidance]="emptyGuidance" 
+            [loading]="loading$ | async"
+            [error]="error$ | async" 
+            [applications]="applications$ | async" 
+            [url]="url"
+
+            [addPageText]="'GUIDANCE.VIEW.BUTTON.ADD-PAGE' | translate" 
+            [reviewText]="'GUIDANCE.VIEW.BUTTON.REVIEW' | translate" 
+            [saveText]="'GUIDANCE.CREATE.BUTTON.SAVE' | translate" 
+            [cancelText]="'GUIDANCE.EDIT.BUTTON.CANCEL' | translate" 
+            [deleteText]="'GUIDANCE.VIEW.BUTTON.DELETE' | translate" 
+
+            [deletePageTooltip]="'GUIDANCE.VIEW.TOOLTIP.DELETE-PAGE' | translate" 
+            [upPageTooltip]="'GUIDANCE.VIEW.TOOLTIP.UP-PAGE' | translate" 
+            [downPageTooltip]="'GUIDANCE.VIEW.TOOLTIP.DOWN-PAGE' | translate" 
+            [copyPageTooltip]="'GUIDANCE.VIEW.TOOLTIP.COPY-PAGE' | translate" 
+
+            [guideErrorNameRequired]="'GUIDANCE.EDIT.ERROR.NAME.REQUIRED' | translate"
+            [guideErrorApplicationRequired]="'GUIDANCE.EDIT.ERROR.APP.REQUIRED' | translate"
+
+            [nameText]="'GUIDANCE.VIEW.NAME.LABEL' | translate"
+            [appText]="'GUIDANCE.VIEW.APP.LABEL' | translate" 
+            [versionMinText]="'GUIDANCE.VERSION-MIN.LABEL' | translate"
+            [versionMaxText]="'GUIDANCE.VERSION-MAX.LABEL' | translate"
+            [tagText]="'GUIDANCE.VIEW.TAG.LABEL' | translate" 
+            [statusText]="'GUIDANCE.VIEW.STATUS.LABEL' | translate" 
+            [pageText]="'GUIDANCE.VIEW.PAGE.LABEL' | translate" 
+            [titleText]="'GUIDANCE.VIEW.PAGE.TITLE.LABEL' | translate" 
+            [textText]="'GUIDANCE.VIEW.PAGE.TEXT.LABEL' | translate"
+            
+            (cancel)="cancel()" 
+            (create)="create($event)"
+            (review)="openReview($event)" 
+            (changeLang)="changeLn($event)">
+        </pip-guidance-update>
+
+    </div>
+</pip-menu-layout>

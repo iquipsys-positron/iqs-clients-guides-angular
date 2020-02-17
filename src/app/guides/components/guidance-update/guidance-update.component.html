@@ -1,0 +1,207 @@
+<pip-document-layout>
+    <pip-document-content style="padding: 24px">
+        <div>
+            <mat-progress-bar mode="indeterminate" *ngIf="loading" class="pip-loading"></mat-progress-bar>
+
+            <mat-error *ngIf="error" class="bm16">
+                {{ error.message || error }}
+            </mat-error>
+
+            <div class="bm16" fxLayout="row" style="margin-right: 0px;">
+                <div>
+                    <button mat-button class="type-select-button" [matMenuTriggerFor]="menuType">
+                        {{ guideType.title | translate }}
+                        <mat-icon>arrow_drop_down</mat-icon>
+                    </button>
+                    <mat-menu #menuType="matMenu">
+                        <button class="type-select-menu" *ngFor="let type of types" mat-menu-item (click)="changeType(type)">
+                            {{ type.title | translate }}
+                            <mat-icon *ngIf="type.title == guideType.title" style="margin-bottom: 10px">check</mat-icon>
+                        </button>
+                    </mat-menu>
+                </div>
+                <div fxFlex> </div>
+                <div>
+                    <button class="lang-select-button" mat-button [matMenuTriggerFor]="menuLang">
+                        {{ ln | translate }}
+                        <mat-icon>arrow_drop_down</mat-icon>
+                    </button>
+                    <mat-menu #menuLang="matMenu">
+                        <button class="lang-select-menu" *ngFor="let language of languages" mat-menu-item (click)="changeLn(language)">
+                            {{ language | translate }}
+                            <mat-icon *ngIf="language == ln" style="margin-bottom: 10px">check</mat-icon>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+
+            <form #guideForm="ngForm" fxLayout="column">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input matInput [placeholder]="nameText" type="text" id="name" name="name" required [(ngModel)]="updateItem.name"
+                               (ngModelChange)="onChange()" #_name="ngModel" />
+
+                        <mat-error *ngIf="(_name.dirty || _name.touched) && _name.errors?.required">
+                            {{ guideErrorNameRequired }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="demo-chip-list">
+                        <mat-chip-list #chipList>
+                            <mat-chip *ngFor="let tag of updateItem.tags" [selectable]="selectable" [removable]="removable"
+                                      (removed)="removeTag(tag)">
+                                {{ tag }}
+                                <mat-icon matChipRemove *ngIf="removable">
+                                    cancel
+                                </mat-icon>
+                            </mat-chip>
+                            <input [placeholder]="tagText" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                   [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)" />
+                        </mat-chip-list>
+                    </mat-form-field>
+
+                    <div fxLayout="column" fxLayout.gt-sm="row">
+                        <mat-form-field class="pip-full-width" style="margin-right: 16px">
+                            <mat-select [placeholder]="appText" id="app" name="app" [(ngModel)]="updateItem.app" #_app="ngModel"
+                                        required (ngModelChange)="onChange()">
+                                <mat-option *ngFor="let app of applications" [value]="app.id">
+                                    {{ app.name[ln] }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error *ngIf="(_app.dirty || _app.touched) && _app.errors?.required">
+                                {{ guideErrorApplicationRequired }}
+                            </mat-error>
+                        </mat-form-field>
+
+
+                        <div fxLayout="row">
+                            <mat-form-field class="pip-full-width" style="margin-right: 16px">
+                                <input matInput [placeholder]="versionMinText" type="number" id="min_ver" name="min_ver"
+                                       [(ngModel)]="updateItem.min_ver" #_min_ver="ngModel" required (ngModelChange)="onChange()" />
+                            </mat-form-field>
+
+                            <mat-form-field class="pip-full-width">
+                                <input matInput [placeholder]="versionMaxText" type="number" id="max_ver" name="max_ver"
+                                       [(ngModel)]="updateItem.max_ver" #_max_ver="ngModel" required (ngModelChange)="onChange()" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <pip-button-toggle-group>
+                        <mat-button-toggle-group name="st" id="st" (ngModelChange)="changeStatus($event)" [ngModel]="updateItem.status"
+                                                 #_st="ngModel">
+                            <mat-button-toggle *ngFor="let st of statuses" fxFlex="fill" [value]="st.id" style="text-align: center">
+                                {{ st.title | translate }}
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </pip-button-toggle-group>
+
+
+                    <!-- <mat-input-container class="pip-full-width" fxHide="false" fxHide.gt-sm="true">
+                        <mat-select [placeholder]="statusText" id="status" name="status" [(ngModel)]="updateItem.status" #_status="ngModel">
+                            <mat-option *ngFor="let st of statuses" [value]="st.id">
+                                {{ st.title | translate }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-input-container> -->
+                </div>
+                <div fxLayout="column">
+                    <div *ngFor="let page of updateItem.pages; let i = index" class="pip-page-content">
+                        <mat-divider></mat-divider>
+                        <div fxLayout="row" fxFlex>
+                            <div class="pip-page">
+                                {{ pageText }} {{ i + 1}}
+                            </div>
+                            <div fxFlex> </div>
+                            <div class="guide-page-actions">
+                                <button mat-icon-button (click)="copyPage(i)" [disabled]="loading" matTooltip="copyPageTooltip"
+                                        matTooltipShowDelay="300">
+                                    <mat-icon fontSet="webui" fontIcon="webui-unselect-all"></mat-icon>
+                                </button>
+
+                                <button mat-icon-button (click)="moveUp(i)" matTooltip="upPageTooltip"
+                                        matTooltipShowDelay="300" [disabled]="loading || i < 1">
+                                    <mat-icon fontSet="webui" fontIcon="webui-arrow-up"></mat-icon>
+                                </button>
+
+                                <button mat-icon-button (click)="moveDown(i)" matTooltip="downPageTooltip"
+                                        matTooltipShowDelay="300" [disabled]="loading || i > updateItem.pages.length">
+                                    <mat-icon fontSet="webui" fontIcon="webui-arrow-down"></mat-icon>
+                                </button>
+
+                                <button mat-icon-button (click)="deletePage(i)" matTooltip="deletePageTooltip"
+                                        matTooltipShowDelay="300" [disabled]="loading">
+                                    <mat-icon fontSet="webui" fontIcon="webui-cross"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div fxLayout="column" fxFlex fxLayoutAlign="center center">
+                            <pip-picture-edit class="pip-pic" [src]="src(updateItem.pages[i].pic_id)" defaultIcon="image"
+                                              (onImageLoad)="onImageLoad($event, i)" (onImageDelete)="onImageDelete($event, i)">
+                            </pip-picture-edit>
+
+                            <mat-form-field class="pip-full-width">
+                                <!-- <input matInput [placeholder]="titleText" type="text" [id]="'title'+ i" [name]="'subject' + i " [(ngModel)]="updateItem.pages[i].title[ln]" (ngModelChange)="onChange()"
+                                /> -->
+
+                                <textarea matInput matTextareaAutosize [placeholder]="titleText" type="text" [id]="'title'+i"
+                                          [name]="'title' + i" [(ngModel)]="updateItem.pages[i].title[ln]"
+                                          (ngModelChange)="onChange()">
+                                </textarea>
+                            </mat-form-field>
+
+                            <mat-form-field class="pip-full-width">
+                                <textarea matInput matTextareaAutosize [placeholder]="textText" type="text" [id]="'text'+i"
+                                          [name]="'text' + i" [(ngModel)]="updateItem.pages[i].content[ln]"
+                                          (ngModelChange)="onChange()">
+                                </textarea>
+                            </mat-form-field>
+
+                            <pip-color-picker [colors]="colors" [selected]="updateItem.pages[i].color" (changeColor)="colorChanged($event, i)"></pip-color-picker>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                </div>
+
+                <button mat-button fxFlex class="add-page-button" (click)="addPage()" [disabled]="loading">
+                    <mat-icon fontSet="webui" fontIcon="webui-plus"></mat-icon>
+                    <span class="pip-title">{{ addPageText }}</span>
+                </button>
+
+            </form>
+        </div>
+    </pip-document-content>
+    <pip-document-footer>
+
+        <pip-action-list style="margin-top: 8px">
+            <button mat-button class="pip-action-list-item" (click)="onReview()" [disabled]="loading">
+                <mat-icon fontSet="webui" fontIcon="webui-preview"></mat-icon>
+                <span class="pip-title">{{ reviewText }}</span>
+            </button>
+
+            <!-- <button mat-button class="pip-action-list-item" (click)="addPage()" [disabled]="loading">
+                <mat-icon fontSet="webui" fontIcon="webui-plus"></mat-icon>
+                <span class="pip-title">{{ addPageText }}</span>
+            </button> -->
+
+            <button mat-button class="pip-action-list-item" (click)="saveSubmit()" *ngIf="isChange" [disabled]="loading || !isChange || guideForm.invalid">
+                <mat-icon fontSet="webui" fontIcon="webui-check"></mat-icon>
+                <span class="pip-title">{{ saveText }}</span>
+            </button>
+
+            <button mat-button class="pip-action-list-item" (click)="onCancel()" *ngIf="isChange" [disabled]="loading">
+                <mat-icon fontSet="webui" fontIcon="webui-cross"></mat-icon>
+                <span class="pip-title">{{ cancelText }}</span>
+            </button>
+
+            <button mat-button class="pip-action-list-item" (click)="deleteSubmit()" [disabled]="loading" *ngIf="updateItem.id">
+                <mat-icon fontSet="webui" fontIcon="webui-trash"></mat-icon>
+                <span class="pip-title">{{ deleteText }}</span>
+            </button>
+        </pip-action-list>
+
+    </pip-document-footer>
+</pip-document-layout>

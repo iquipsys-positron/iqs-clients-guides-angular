@@ -1,0 +1,17 @@
+<pip-slider #slider [interval]="300000">
+    <pip-slide *ngFor="let slide of slides; let i = index" fxLayout="column" fxLayoutAlign="center center" [ngStyle]="{'background-color': slide.color}">
+
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <img class="guide-pic" [src]="url + slide.pic_id">
+        </div>
+
+        <div class="guide-title">
+            {{ slide.title[ln] }}
+        </div>
+        <div class="guide-subtitle" [innerHTML]="slide.content[ln]">
+
+        </div>
+    </pip-slide>
+    <pip-slider-button direction="backward" [disabled]="slider.isFirst"></pip-slider-button>
+    <pip-slider-button [disabled]="slider.isLast"></pip-slider-button>
+</pip-slider>

@@ -1,0 +1,240 @@
+$font-family: Roboto,
+'Helvetica Neue',
+sans-serif;
+$font-size-subhead1: 16px;
+$font-weight-subhead1: 400;
+$letter-spacing-subhead1: .01em;
+$line-height-subhead1: 24px;
+$font-subhead1: normal $font-weight-subhead1 $font-size-subhead1 $font-family;
+$font-size-subhead2: 16px;
+$font-weight-subhead2: 500;
+$letter-spacing-subhead2: .01em;
+$line-height-subhead2: 24px;
+$font-subhead2: normal $font-weight-subhead2 $font-size-subhead2 $font-family;
+$font-size-body1: 14px;
+$font-weight-body1: 400;
+$letter-spacing-body1: .01em;
+$line-height-body1: 20px;
+$font-body1: normal $font-weight-body1 $font-size-body1 $font-family;
+$font-size-body2: 14px;
+$font-weight-body2: 500;
+$letter-spacing-body2: .01em;
+$line-height-body2: 24px;
+$font-body2: normal $font-weight-body2 $font-size-body2 $font-family;
+:host {
+    display: block;
+    position: relative;
+    height: 100%;
+}
+
+// .pip-subtitle {
+//   opacity: 0.54;
+//   font-weight: 400;
+//   margin-bottom: 12px;
+//   margin-top: 12px;
+// }
+// .pip-text {
+//   margin: 0px;
+//   margin-bottom: 8px;
+// }
+.pip-title {
+    font-weight: 500;
+    font-size: 20px;
+    margin-top: 0px;
+}
+
+// .pip-footer {
+//   margin-top: 8px;
+//   margin-bottom: 4px !important;
+// }
+// .pip-footer-text {
+//   margin-bottom: 0px;
+// }
+.pip-loading {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 1px;
+}
+
+// .pip-server {}
+// .pip-progress {
+//   width: 100%;
+//   text-align: center;
+//   mat-progress-bar {
+//     max-width: 250px;
+//     margin: 0 auto;
+//     margin-top: 16px;
+//   }
+// }
+// .pip-sender {
+//   .pip-content {
+//     padding-top: 8px;
+//     padding-bottom: 8px; 
+//   }
+//   .pip-title {
+//       -webkit-user-select: auto;
+//       font: $font-subhead2 !important;
+//       margin-top: 1px !important;
+//       margin-bottom: 4px !important;
+//   }
+//   .pip-subtitle {
+//       font: $font-body1 !important;
+//       opacity: 0.54;
+//   }
+//   .pip-icon {
+//       width: 15px;
+//       height: 15px;
+//       min-height: 15px;
+//       min-width: 15px;
+//       vertical-align: middle;
+//       margin-top: -1px;
+//       font-size: $font-size-body1;
+//   }
+//   .pip-text-bold {
+//       font: $font-body2 !important;
+//   }
+//   .pip-text {
+//       font: $font-body1 !important;
+//       max-height: 2.5em;
+//       line-height: 1.5em;
+//       margin-right: 16px;
+//       overflow: hidden;
+//   }
+//   .pip-pic {
+//       height: 100% !important;
+//       margin-top: 8px;
+//       margin-right: 16px;
+//   }
+//   .text-overflow {
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//       white-space: nowrap;
+//   }
+//   p { 
+//       margin-top: 4px;
+//       margin-bottom: 4px;
+//   }
+// }
+// .pip-update-guidance-text {
+//   width: 56px; 
+// }
+// .pip-guidance-title {
+//   margin-top: 8px;
+//   margin-bottom: 8px;
+//   font-size: 16px;
+// }
+.bm16 {
+    margin-bottom: 16px;
+}
+
+mat-divider {
+    margin-bottom: 16px;
+    margin-top: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+}
+
+pip-document-content {
+    height: calc( 100% - 32px);
+}
+
+.object-actions {
+    padding-left: 40px;
+    .pip-title {
+        text-transform: uppercase;
+    }
+}
+
+.mat-tab-container {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    overflow: hidden;
+}
+
+.empty-label {
+    padding: 24px 0px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+
+.pip-full-width {
+    width: 100%;
+}
+
+.pip-select {
+    width: 50%
+}
+
+.pip-pic {
+    margin-right: 16px;
+    width: 250px;
+    height: 250px;
+}
+
+.pip-page {
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    opacity: 0.54;
+    vertical-align: middle;
+}
+
+.pip-page-content {
+    display: block !important;
+}
+
+.lang-select-button {
+    padding-right: 0;
+    font-size: 16px;
+}
+
+.lang-select-menu {
+    font-size: 16px;
+}
+
+.type-select-button {
+    padding-right: 0;
+    padding-left: 0;
+    font-size: 20px;
+}
+
+.type-select-menu {
+    font-size: 20px;
+}
+
+.guide-page-actions {
+    mat-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 24px;
+        line-height: 28px;
+    }
+}
+
+:host {
+    /deep/ .add-page-button.mat-button {
+        min-height: 56px !important;
+        margin-bottom: 24px;
+        color: #999999 !important;
+        white-space: normal;
+        background-color: rgba(0, 0, 0, 0.1);
+        border: solid 1px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+        .mat-button-wrapper {
+            .mat-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 32px;
+                margin-right: 16px;
+            }
+            .pip-title {
+                font-size: 14px;
+            }
+        }
+    }
+}

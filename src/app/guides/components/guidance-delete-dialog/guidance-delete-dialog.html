@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{ 'GUIDANCE.DELETE.DIALOG.TITLE' | translate }}</h1>
+<div mat-dialog-content>
+    <p>{{ 'GUIDANCE.DELETE.DIALOG.MESSAGE' | translate }}</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">{{ 'GUIDANCE.DELETE.DIALOG.BUTTON.CANCEL' | translate }}</button>
+    <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>{{ 'GUIDANCE.DELETE.DIALOG.BUTTON.OK' | translate }}</button>
+</div>

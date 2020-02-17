@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~pip-webui2-layouts/styles.scss";
+@import "~pip-webui2-themes/styles.scss";
+@import "~pip-webui2-entry/styles.scss";
+
+.guidance-review-dialog .mat-dialog-container {
+    padding: 0;
+}
+
+.pip-xl {
+    .guidance-review-dialog .mat-dialog-container {
+        .guide-pic {
+            // height: 250px;
+            width: 750px;
+            margin-bottom: 32px;
+        }
+    }
+}
+
+.pip-lg {
+    .guidance-review-dialog .mat-dialog-container {
+        .guide-pic {
+            // height: 250px;
+            width: 550px;
+            margin-bottom: 32px;
+        }
+    }
+}
+
+.pip-md {
+    .guidance-review-dialog .mat-dialog-container {
+        .guide-pic {
+            // height: 400px;
+            width: 400px;
+            margin-bottom: 32px;
+        }
+    }
+}
+
+.pip-sm,
+.pip-xs,
+    {
+    .guidance-review-dialog .mat-dialog-container {
+        .guide-pic {
+            // height: 250px;
+            width: 250px;
+            margin-bottom: 32px;
+        }
+    }
+}

@@ -1,0 +1,41 @@
+<pip-selected (onSelect)="onSelect($event)" [index]="index" [disableSelect]="state == 'edit'">
+    <mat-nav-list [ngSwitch]="state">
+        <div *ngSwitchCase="'progress'">
+            <pip-empty-state class="pip-show-xs-sm">
+                <pip-empty-state-title [text]="progressText" [imageUrl]="progressImageUrl"></pip-empty-state-title>
+                <div class="pip-progress">
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+            </pip-empty-state>
+            <img class="pip-show-gt-sm pip-list-empty" src="{{ emptyListUrl }}" alt="{{ emptyListUrl || 'empty guidances' }}">
+        </div>
+
+        <div *ngSwitchCase="'empty'">
+            <pip-empty-state class="pip-show-xs-sm">
+                <pip-empty-state-title [text]="emptyText" [subText]="emptySubText" [imageUrl]="emptyImageUrl"></pip-empty-state-title>
+                <pip-empty-state-actions [actions]="emptyStateActions"></pip-empty-state-actions>
+            </pip-empty-state>
+            <img class="pip-show-gt-sm pip-list-empty" src="{{ emptyListUrl }}" alt="{{ emptyListUrl || 'empty guidances' }}">
+        </div>
+
+        <div *ngSwitchDefault>
+                <pip-ref-item *ngFor="let guidance of guidances; trackBy: guidance?.id" pipSelectable (click)="select(guidance?.id)"
+                 [id]="guidance.id" [title]="guidance.name" [subtitle]="guidance.type + ' (' + guidance.status + ' )'"
+                 [defaultIconBackground]="GuideColor" [letterSource]="guidance.name.toUpperCase()">
+                </pip-ref-item>
+        </div>
+
+        <div *ngSwitchCase="'create'">
+                <pip-ref-item class="pip-selectable pip-selected-item" 
+                [title]="newGuidanceText" [subtitle]="newGuidanceSubText"
+                [defaultIconBackground]="GuideColor" [letterSource]="'+'">
+                </pip-ref-item>
+
+            <pip-ref-item *ngFor="let guidance of guidances; trackBy: guidance?.id" (click)="select(guidance?.id)"
+                 [id]="guidance.id" [title]="guidance.name" [subtitle]="guidance.type + ' (' + guidance.status + ' )'"
+                 [defaultIconBackground]="GuideColor" [letterSource]="guidance.name.toUpperCase()">
+                </pip-ref-item>
+        </div>
+
+    </mat-nav-list>
+</pip-selected>
