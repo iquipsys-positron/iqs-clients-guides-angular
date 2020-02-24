@@ -130,7 +130,7 @@ export class PipGuidanceEffects {
                     return this.FilesService.uploadFiles(url + '/api/v1/blobs', pages)
                         .pipe(
                             map(data => {
-                                payload.guidance = pictureCreated(url, payload.guidance, data.ids);
+                                payload.guidance = pictureCreated(url + '/api/v1/blobs/', payload.guidance, data.ids);
                                 if (payload.state === PipGuidanceActionTypes.GuidanceCreate) {
                                     return new fromGuidanceActions.GuidanceCreateAction(payload.guidance);
                                 }

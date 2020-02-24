@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PipEmptyStateModule, PipSliderModule } from 'pip-webui2-controls';
 import { PipDocumentListModule } from 'pip-webui2-documents';
 import { PipFileUploadModule, PipFileUploadService } from 'pip-webui2-files';
-import { PipDocumentLayoutModule, PipMediaModule, PipMenuLayoutModule, PipShadowModule } from 'pip-webui2-layouts';
+import { PipDocumentLayoutModule, PipMediaModule, PipMenuLayoutModule, PipShadowModule, PipScrollableModule } from 'pip-webui2-layouts';
 import { PipNavService, PipNavModule } from 'pip-webui2-nav';
 import { GuidesContainerComponent } from './guides-container.component';
 import { GuidanceDeleteDialog } from '../../components/guidance-delete-dialog/guidance-delete-dialog';
@@ -56,6 +56,7 @@ import { IqsAskDialogComponent, IqsAskDialogModule } from 'iqs-libs-clientshell2
 
     PipMediaModule,
     PipMenuLayoutModule,
+    PipScrollableModule,
     PipShadowModule,
     PipEmptyStateModule,
     PipDocumentLayoutModule,

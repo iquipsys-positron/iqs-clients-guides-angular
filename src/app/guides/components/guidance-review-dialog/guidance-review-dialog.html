@@ -2,7 +2,8 @@
     <pip-slide *ngFor="let slide of slides; let i = index" fxLayout="column" fxLayoutAlign="center center" [ngStyle]="{'background-color': slide.color}">
 
         <div fxLayout="column" fxLayoutAlign="center center">
-            <img class="guide-pic" [src]="url + slide.pic_id">
+            <img *ngIf="slide?.pic_url" class="guide-pic" [src]="url + slide.pic_id">
+            <img *ngIf="slide?.dataPic" class="guide-pic" [src]="slide.dataPic?.url">
         </div>
 
         <div class="guide-title">

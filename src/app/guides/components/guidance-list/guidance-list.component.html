@@ -15,7 +15,9 @@
                 <pip-empty-state-title [text]="emptyText" [subText]="emptySubText" [imageUrl]="emptyImageUrl"></pip-empty-state-title>
                 <pip-empty-state-actions [actions]="emptyStateActions"></pip-empty-state-actions>
             </pip-empty-state>
-            <img class="pip-show-gt-sm pip-list-empty" src="{{ emptyListUrl }}" alt="{{ emptyListUrl || 'empty guidances' }}">
+            <pip-empty-state class="pip-show-gt-sm">
+                <div class="iqs-menu-empty"></div>
+            </pip-empty-state>
         </div>
 
         <div *ngSwitchDefault>

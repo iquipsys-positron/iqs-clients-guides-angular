@@ -1,8 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~pip-webui2-layouts/styles.scss";
-@import "~pip-webui2-themes/styles.scss";
-@import "~pip-webui2-entry/styles.scss";
-
 .guidance-review-dialog .mat-dialog-container {
     padding: 0;
 }
@@ -38,8 +34,7 @@
 }
 
 .pip-sm,
-.pip-xs,
-    {
+.pip-xs {
     .guidance-review-dialog .mat-dialog-container {
         .guide-pic {
             // height: 250px;
@@ -47,4 +42,9 @@
             margin-bottom: 32px;
         }
     }
+}
+
+/* Stylex fix */
+body {
+    font-family: 'Roboto';
 }

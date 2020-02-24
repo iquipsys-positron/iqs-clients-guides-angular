@@ -11,17 +11,22 @@ $font-weight-title: 500;
 $letter-spacing-title: .01em;
 $line-height-title: 32px;
 $font-title: normal $font-weight-title $font-size-title $font-family;
+
 :host {
     height: 100%;
+
     pip-slider {
         height: 100%;
     }
+
     .mat-icon {
         color: rgba(255, 255, 255, 0.87) !important;
     }
+
     pip-slider-button {
         color: rgba(255, 255, 255, 0.87) !important;
     }
+
     .guide-title {
         width: 60%;
         color: rgba(255, 255, 255, 0.87);
@@ -29,6 +34,7 @@ $font-title: normal $font-weight-title $font-size-title $font-family;
         padding: 16px 0px;
         text-align: center;
     }
+
     .guide-subtitle {
         width: 80%;
         color: rgba(255, 255, 255, 0.87);
@@ -36,7 +42,12 @@ $font-title: normal $font-weight-title $font-size-title $font-family;
         padding: 16px 0px;
         text-align: center;
     }
+
     .guide-pic {
         margin: 0px auto;
+    }
+
+    .pip-slide {
+        overflow: auto;
     }
 }

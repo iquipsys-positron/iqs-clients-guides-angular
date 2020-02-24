@@ -177,6 +177,7 @@ export class PipGuidanceUpdateComponent implements OnInit, OnChanges {
     }
 
     public onReview() {
+        console.log('review', this.updateItem);
         this.review.emit({
             guidance: this.updateItem,
             ln: this.ln
@@ -194,6 +195,9 @@ export class PipGuidanceUpdateComponent implements OnInit, OnChanges {
 
     public onImageLoad($event, index: string) {
         this.updateItem.pages[index].dataPic = $event;
+        if (this.updateItem.pages[index].pic_url) {
+            delete this.updateItem.pages[index].pic_url;
+        }
         this.onChange();
     }
 
